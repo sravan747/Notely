@@ -7,16 +7,26 @@ class NotesScreen extends StatelessWidget {
   const NotesScreen({super.key, required this.notes});
 
   static String statusLabel(Note note) {
-    return note.status.name;
+    switch (note.status) {
+      case NoteStatus.local:
+        return 'Local';
+      case NoteStatus.uploading:
+        return 'Uploading';
+      case NoteStatus.uploaded:
+        return 'Uploaded';
+      case NoteStatus.changesPending:
+        return 'Changes pending';
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Notes')),
+      appBar: AppBar(title: const Text('Notes')),
       body: notes.isEmpty
-          ? const Center(child: Text('No Notes yet'))
+          ? const Center(child: Text('No notes yet'))
           : ListView.builder(
+              itemCount: notes.length,
               itemBuilder: (context, index) {
                 final note = notes[index];
                 return ListTile(
